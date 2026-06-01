@@ -80,6 +80,10 @@ type Request struct {
 	Build            *PhaseReq  `json:"build"`
 	Run              *PhaseReq  `json:"run"`
 	Tests            []TestCase `json:"tests"`
+
+	// Compatibility aliases for alternative request payloads
+	Code     string `json:"code,omitempty"`
+	Filename string `json:"filename,omitempty"`
 }
 
 // PhaseReq contains caller-supplied overrides for one phase.

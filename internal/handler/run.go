@@ -44,6 +44,14 @@ func (h *RunHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Resolve compatibility JSON aliases
+	if req.Source == "" && req.Code != "" {
+		req.Source = req.Code
+	}
+	if req.SourceFilename == "" && req.Filename != "" {
+		req.SourceFilename = req.Filename
+	}
+
 	lang, ok := h.Config.Get(req.Language)
 	if !ok {
 		writeError(w, http.StatusBadRequest, "unknown_language", "language "+req.Language+" is not supported")
