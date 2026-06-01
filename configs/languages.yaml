@@ -1,0 +1,172 @@
+languages:
+  - id: py3
+    name: Python 3
+    source_filename: solution.py
+    version_cmd: ["/usr/bin/python3", "--version"]
+    run:
+      cmd: /usr/bin/python3
+      args: ["{{source}}"]
+      limits:
+        wall_time_s: 9
+        memory_kb: 102400
+        max_processes: 100
+
+  - id: cpp
+    name: C++
+    source_filename: solution.cpp
+    artifact: solution
+    version_cmd: ["/usr/bin/g++", "--version"]
+    build:
+      cmd: /usr/bin/g++
+      args: ["{{flags}}", "-o", "{{artifact}}", "{{source}}"]
+      limits:
+        wall_time_s: 3
+        memory_kb: 1048576
+        max_processes: 100
+      flag_allowlist: ["-O0","-O1","-O2","-O3","-Wall","-Wextra","-std=c++17","-std=c++14","-std=c++11","-std=c11","-std=c99"]
+    run:
+      cmd: ./{{artifact}}
+      limits:
+        wall_time_s: 3
+        memory_kb: 524288
+        max_processes: 64
+
+  - id: java
+    name: Java
+    source_filename_strategy: from_request
+    artifact_filename_strategy: from_request
+    version_cmd: ["/usr/bin/javac", "-version"]
+    build:
+      cmd: /usr/bin/javac
+      args: ["{{flags}}", "{{source}}"]
+      limits:
+        wall_time_s: 6
+        memory_kb: 512000
+        max_processes: 100
+      flag_allowlist: ["-encoding", "UTF-8", "-source", "-target"]
+    run:
+      cmd: /usr/bin/java
+      args: ["{{artifact}}"]
+      limits:
+        wall_time_s: 6
+        memory_kb: 512000
+        max_processes: 100
+
+  - id: bash
+    name: Bash
+    source_filename: solution.sh
+    version_cmd: ["/bin/bash", "--version"]
+    run:
+      cmd: /bin/bash
+      args: ["{{source}}"]
+      limits:
+        wall_time_s: 5
+        memory_kb: 65536
+        max_processes: 50
+
+  - id: js
+    name: JavaScript (Node)
+    source_filename: solution.js
+    version_cmd: ["/usr/bin/node", "--version"]
+    run:
+      cmd: /usr/bin/node
+      args: ["{{source}}"]
+      limits:
+        wall_time_s: 5
+        memory_kb: 262144
+        max_processes: 100
+
+  - id: c
+    name: C
+    source_filename: solution.c
+    artifact: solution_c
+    version_cmd: ["/usr/bin/gcc", "--version"]
+    build:
+      cmd: /usr/bin/gcc
+      args: ["{{flags}}", "-o", "{{artifact}}", "{{source}}"]
+      limits:
+        wall_time_s: 3
+        memory_kb: 1048576
+        max_processes: 100
+      flag_allowlist: ["-O0","-O1","-O2","-O3","-Wall","-Wextra","-std=c11","-std=c99"]
+    run:
+      cmd: ./{{artifact}}
+      limits:
+        wall_time_s: 3
+        memory_kb: 524288
+        max_processes: 64
+
+  - id: verilog
+    name: Verilog
+    source_filename: solution.v
+    artifact: solution_verilog
+    version_cmd: ["/usr/bin/iverilog", "-V"]
+    build:
+      cmd: /usr/bin/iverilog
+      args: ["-o", "{{artifact}}", "{{source}}"]
+      limits:
+        wall_time_s: 5
+        memory_kb: 262144
+        max_processes: 100
+      flag_allowlist: ["-g2012","-g2005","-Wall"]
+    run:
+      cmd: /usr/bin/vvp
+      args: ["{{artifact}}"]
+      limits:
+        wall_time_s: 5
+        memory_kb: 262144
+        max_processes: 64
+
+  # Bonus languages
+  - id: rust
+    name: Rust
+    source_filename: solution.rs
+    artifact: solution_rust
+    version_cmd: ["/usr/local/bin/rustc", "--version"]
+    build:
+      cmd: /usr/local/bin/rustc
+      args: ["{{flags}}", "-o", "{{artifact}}", "{{source}}"]
+      limits:
+        wall_time_s: 15
+        memory_kb: 2097152
+        max_processes: 100
+      flag_allowlist: ["-O", "--edition=2021", "--edition=2018", "--edition=2015"]
+    run:
+      cmd: ./{{artifact}}
+      limits:
+        wall_time_s: 5
+        memory_kb: 524288
+        max_processes: 64
+
+  - id: ruby
+    name: Ruby
+    source_filename: solution.rb
+    version_cmd: ["/usr/bin/ruby", "--version"]
+    run:
+      cmd: /usr/bin/ruby
+      args: ["{{source}}"]
+      limits:
+        wall_time_s: 9
+        memory_kb: 262144
+        max_processes: 100
+
+  - id: kotlin
+    name: Kotlin
+    source_filename: solution.kt
+    artifact: solution_kotlin.jar
+    version_cmd: ["/usr/local/bin/kotlinc", "-version"]
+    build:
+      cmd: /usr/local/bin/kotlinc
+      args: ["{{source}}", "-include-runtime", "-d", "{{artifact}}"]
+      limits:
+        wall_time_s: 30
+        memory_kb: 2097152
+        max_processes: 100
+      flag_allowlist: ["-jvm-target", "11", "17", "21"]
+    run:
+      cmd: /usr/bin/java
+      args: ["-jar", "{{artifact}}"]
+      limits:
+        wall_time_s: 10
+        memory_kb: 524288
+        max_processes: 100
